@@ -1,190 +1,45 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  StatusBar,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-const data = new Array(30).fill('null').map((v, i) => i.toString());
-
-const AnimatedFlatlist = Animated.createAnimatedComponent(FlatList);
-
-import Animated, {
-  useSharedValue,
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  interpolate,
-  Extrapolate,
-  set,
-  useDerivedValue,
-} from 'react-native-reanimated';
-
+import React, {Component} from 'react';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {FBStories} from './src/components';
+export default function App(props) {
+  return (
+    <SafeAreaView style={styles.container}>
+      <FBStories data={dataList} avatar={avatarUri} />
+    </SafeAreaView>
+  );
+}
 const styles = StyleSheet.create({
-  card: {
-    width: 120,
-    height: 200,
-    overflow: 'hidden',
-    borderRadius: 12,
-    marginLeft: 4,
-    marginRight: 4,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'grey',
-    backgroundColor: 'white',
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
   },
 });
-
-const renderCard = ({item, index}) => {
-  const uri = 'https://loremflickr.com/120/240?lock=' + index;
-  return (
-    <View style={styles.card}>
-      <Image source={{uri}} style={{flex: 1}} />
-    </View>
-  );
-};
-
-const AnimatedCard = ({x}) => {
-  const v = useDerivedValue(() => {
-    return interpolate(x.value, [0, 120], [0, 1], Extrapolate.CLAMP);
-  });
-
-  const containerStyle = useAnimatedStyle(() => {
-    const width = interpolate(v.value, [0, 1], [120, 60], Extrapolate.CLAMP);
-    const marginLeft = interpolate(v.value, [0, 1], [4, 0], Extrapolate.CLAMP);
-    const borderLeftRadius = interpolate(
-      v.value,
-      [0, 1],
-      [12, 0],
-      Extrapolate.CLAMP,
-    );
-    const borderRightRadius = interpolate(
-      v.value,
-      [0, 1],
-      [12, 30],
-      Extrapolate.CLAMP,
-    );
-    const height = interpolate(v.value, [0, 1], [200, 60], Extrapolate.CLAMP);
-    const top = interpolate(v.value, [0, 1], [20, 100], Extrapolate.CLAMP);
-
-    return {
-      width,
-      height,
-      overflow: 'hidden',
-      borderTopLeftRadius: borderLeftRadius,
-      borderBottomLeftRadius: borderLeftRadius,
-      borderTopRightRadius: borderRightRadius,
-      borderBottomRightRadius: borderRightRadius,
-      marginLeft,
-      marginRight: 4,
-      borderWidth: StyleSheet.hairlineWidth,
-      borderColor: 'grey',
-      position: 'absolute',
-      left: 0,
-      top,
-      backgroundColor: 'white',
-    };
-  });
-
-  const imageStyle = useAnimatedStyle(() => {
-    const size = interpolate(v.value, [0, 1], [120, 40], Extrapolate.CLAMP);
-    const borderRadius = interpolate(
-      v.value,
-      [0, 1],
-      [0, 20],
-      Extrapolate.CLAMP,
-    );
-    const tx = interpolate(v.value, [0, 1], [0, 10], Extrapolate.CLAMP);
-    const ty = interpolate(v.value, [0, 1], [0, 10], Extrapolate.CLAMP);
-
-    return {
-      width: size,
-      height: size,
-      borderRadius,
-      transform: [{translateX: tx}, {translateY: ty}],
-    };
-  });
-
-  const iconStyle = useAnimatedStyle(() => {
-    const top = interpolate(v.value, [0, 1], [100, 35], Extrapolate.CLAMP);
-    const left = interpolate(v.value, [0, 1], [40, 35], Extrapolate.CLAMP);
-    const size = interpolate(v.value, [0, 1], [40, 16], Extrapolate.CLAMP);
-    const borderWidth = interpolate(v.value, [0, 1], [2, 0], Extrapolate.CLAMP);
-
-    return {
-      backgroundColor: '#3f3fef',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: size,
-      height: size,
-      borderRadius: 20,
-      borderWidth,
-      borderColor: 'white',
-      position: 'absolute',
-      top,
-      left,
-    };
-  });
-
-  const textStyle = useAnimatedStyle(() => {
-    const opacity = interpolate(v.value, [0, 0.5], [1, 0], Extrapolate.CLAMP);
-    return {
-      textAlign: 'center',
-      marginTop: 30,
-      opacity,
-    };
-  });
-
-  const uri =
-    'https://avatars.githubusercontent.com/u/26770991?s=460&u=b6ae24bb0cbbc523d7020663a130289d9139e478&v=4';
-  return (
-    <Animated.View style={containerStyle}>
-      <Animated.Image source={{uri}} style={imageStyle} />
-      <Animated.View style={iconStyle}>
-        <Icon name="plus" color="white" size={18} />
-      </Animated.View>
-      <Animated.Text style={textStyle}>Create a story</Animated.Text>
-    </Animated.View>
-  );
-};
-
-const FBStories = () => {
-  const x = useSharedValue(0);
-
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      x.value = event.contentOffset.x;
-    },
-  });
-
-  return (
-    <View style={{backgroundColor: '#c2c2c9', flex: 1}}>
-      <StatusBar backgroundColor="#FFFFFF" />
-      <View
-        style={{
-          backgroundColor: 'white',
-          paddingTop: 20,
-          paddingBottom: 20,
-          marginTop: 60,
-        }}>
-        <AnimatedFlatlist
-          horizontal
-          data={data}
-          renderItem={renderCard}
-          ListHeaderComponent={<View style={{width: 128}} />}
-          keyExtractor={(item, index) => `${index}`}
-          scrollEventThrottle={6}
-          onScroll={scrollHandler}
-          showsHorizontalScrollIndicator={false}
-          bounces={false}
-        />
-        <AnimatedCard x={x} />
-      </View>
-    </View>
-  );
-};
-
-export default FBStories;
+const avatarUri =
+  'https://afamilycdn.com/thumb_w/650/150157425591193600/2021/3/29/ngoctrinh891661513371490499237942576920462979063487136n-1617008736620280771.jpg';
+const dataList = [
+  {
+    id: 1,
+    img:
+      'https://afamilycdn.com/150157425591193600/2021/3/30/ngoc-trinh-giuong-chieu-6-16171144452971497976701.jpg',
+  },
+  {
+    id: 2,
+    img:
+      'https://kenh14cdn.com/203336854389633024/2021/3/30/tong-tai-ngoc-trinh-kiem-tien-tu-nhung-cong-viec-nao-ma-thu-nhap-ca-ty-dong-moi-ngay-1-16171050837451017339613.jpg',
+  },
+  {
+    id: 3,
+    img:
+      'https://kenh14cdn.com/thumb_w/660/2020/8/15/2-ngoc-trinh-6-2744-1589893027-8727-1589959533-15975041108311715339510.jpg',
+  },
+  {
+    id: 4,
+    img:
+      'https://vcdn-ngoisao.vnecdn.net/2020/05/19/1-ngoc-trinh-1-4497-1589893026.jpg',
+  },
+  {
+    id: 5,
+    img:
+      'https://image-us.eva.vn/upload/2-2019/images/2019-05-08/nhung-my-nhan-so-huu-co-bung-so-11-cuc-pham-nha-phuong-elly-tran-danh-bai-minh-tu-vi-nt2-min-1557306137-569-width600height900.jpg',
+  },
+];
