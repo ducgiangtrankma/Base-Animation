@@ -1,2 +1,3 @@
 import FBStories from './FBStories';
-export {FBStories};
+import FBSearch from './FBSearch';
+export {FBStories, FBSearch};

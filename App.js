@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
-import {FBStories} from './src/components';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {FBStories, FBSearch} from './src/components';
 export default function App(props) {
   return (
-    <SafeAreaView style={styles.container}>
-      <FBStories data={dataList} avatar={avatarUri} />
-    </SafeAreaView>
+    <View style={styles.container}>
+      <FBSearch />
+      <View style={{flex: 1}}>
+        <FBStories data={dataList} avatar={avatarUri} />
+      </View>
+    </View>
   );
 }
 const styles = StyleSheet.create({
