@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {FBStories, FBSearch} from './src/components';
+import List from './src/components/FlatList';
 export default function App(props) {
   return (
     <View style={styles.container}>
       <FBSearch />
       <View style={{flex: 1}}>
         <FBStories data={dataList} avatar={avatarUri} />
+        <List />
       </View>
     </View>
   );
