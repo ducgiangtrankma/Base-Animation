@@ -1,3 +1,5 @@
 import FBStories from './FBStories';
 import FBSearch from './FBSearch';
-export {FBStories, FBSearch};
+import List from './FlatList';
+import MovieCarousel from './MovieCarousel';
+export {FBStories, FBSearch, List, MovieCarousel};
