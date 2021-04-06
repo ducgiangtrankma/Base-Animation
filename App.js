@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {FBStories, FBSearch, List, MovieCarousel} from './src/components';
-
+import OverflowItems from './src/components/RNStackFlatlistCarousel';
 export default function App(props) {
   return (
     <View style={styles.container}>
       {/* <FBSearch /> */}
       {/* <FBStories data={dataList} avatar={avatarUri} /> */}
       {/* <List /> */}
-      <MovieCarousel />
+      {/* <MovieCarousel /> */}
+      <OverflowItems />
     </View>
   );
 }
