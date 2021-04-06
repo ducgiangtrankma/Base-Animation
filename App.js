@@ -2,15 +2,17 @@ import React, {Component} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {FBStories, FBSearch, List, MovieCarousel} from './src/components';
 import OverflowItems from './src/components/RNStackFlatlistCarousel';
+import UberEats from './src/components/ScrollHeader';
 export default function App(props) {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* <FBSearch /> */}
       {/* <FBStories data={dataList} avatar={avatarUri} /> */}
       {/* <List /> */}
       {/* <MovieCarousel /> */}
-      <OverflowItems />
-    </View>
+      {/* <OverflowItems /> */}
+      <UberEats />
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
