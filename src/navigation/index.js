@@ -9,6 +9,7 @@ import {
   HeadPhone,
 } from '../components';
 import Detail from '../components/RNStackFlatlistCarousel/Detail';
+import DetailHeadPhone from '../components/HeadPhone/Detail';
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
 
 const Stack = createSharedElementStackNavigator();
@@ -22,6 +23,7 @@ const Main = () => {
         <Stack.Screen name="ListStackCarousel" component={ListStackCarousel} />
         <Stack.Screen name="ScrollHeader" component={ScrollHeader} />
         <Stack.Screen name="Detail" component={Detail} />
+        <Stack.Screen name="DetailHeadPhone" component={DetailHeadPhone} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -7,9 +7,10 @@ import {
   Dimensions,
   Animated,
   StatusBar,
+  TouchableOpacity,
 } from 'react-native';
 import data from './data';
-
+import {SharedElement} from 'react-navigation-shared-element';
 const {width, height} = Dimensions.get('window');
 const LOGO_WIDTH = 220;
 const LOGO_HEIGHT = 40;
@@ -36,17 +37,20 @@ const Circle = ({scrollX}) => {
           outputRange: [0, 0.2, 0],
         });
         return (
-          <Animated.View
-            key={index}
-            style={[
-              styles.circle,
-              {
-                backgroundColor: color,
-                opacity,
-                transform: [{scale}],
-              },
-            ]}
-          />
+          <SharedElement id={`${data.key}.circle`} style={styles.circle}>
+            <Animated.View
+              key={index}
+              style={[
+                styles.circle,
+                {
+                  top: 0,
+                  backgroundColor: color,
+                  opacity,
+                  transform: [{scale}],
+                },
+              ]}
+            />
+          </SharedElement>
         );
       })}
     </View>
@@ -74,7 +78,8 @@ const Ticker = ({scrollX}) => {
   );
 };
 
-const Item = ({imageUri, heading, description, index, scrollX}) => {
+const Item = ({item, index, scrollX, navigation}) => {
+  const {imageUri, heading, description} = item;
   const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
   const inputRangeOpacity = [
     (index - 0.3) * width,
@@ -99,16 +104,23 @@ const Item = ({imageUri, heading, description, index, scrollX}) => {
   });
 
   return (
-    <View style={styles.itemStyle}>
-      <Animated.Image
-        source={imageUri}
-        style={[
-          styles.imageStyle,
-          {
-            transform: [{scale}],
-          },
-        ]}
-      />
+    <TouchableOpacity
+      style={styles.itemStyle}
+      onPress={() => {
+        navigation.navigate('DetailHeadPhone', {item});
+      }}>
+      <SharedElement id={`${item.key}.image`} style={styles.imageStyle}>
+        <Animated.Image
+          source={imageUri}
+          style={[
+            styles.imageStyle,
+            {
+              transform: [{scale}],
+            },
+          ]}
+        />
+      </SharedElement>
+
       <View style={styles.textContainer}>
         <Animated.Text
           style={[
@@ -135,7 +147,7 @@ const Item = ({imageUri, heading, description, index, scrollX}) => {
           {description}
         </Animated.Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -170,7 +182,7 @@ const Pagination = ({scrollX}) => {
   );
 };
 
-export default function App() {
+export default function App({navigation}) {
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
   return (
@@ -181,7 +193,12 @@ export default function App() {
         keyExtractor={(item) => item.key}
         data={data}
         renderItem={({item, index}) => (
-          <Item {...item} index={index} scrollX={scrollX} />
+          <Item
+            item={item}
+            index={index}
+            scrollX={scrollX}
+            navigation={navigation}
+          />
         )}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
