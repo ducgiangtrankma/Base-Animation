@@ -1,17 +1,35 @@
-import React, {Component} from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import {FBStories, FBSearch, List, MovieCarousel} from './src/components';
 import OverflowItems from './src/components/RNStackFlatlistCarousel';
 import UberEats from './src/components/ScrollHeader';
 export default function App(props) {
+  const [count, setCount] = useState(1);
+  const addCount = () => {
+    addCount1();
+    addCount2();
+  };
+  const addCount1 = () => {
+    console.log('set count 1');
+
+    setCount(count + 1);
+  };
+  const addCount2 = () => {
+    console.log('set count 2');
+    setCount(count + 1);
+  };
   return (
     <SafeAreaView style={styles.container}>
+      <Text>{count}</Text>
+      <TouchableOpacity onPress={addCount}>
+        <Text>Tang gia tri</Text>
+      </TouchableOpacity>
       {/* <FBSearch /> */}
       {/* <FBStories data={dataList} avatar={avatarUri} /> */}
       {/* <List /> */}
       {/* <MovieCarousel /> */}
       {/* <OverflowItems /> */}
-      <UberEats />
+      {/* <UberEats /> */}
     </SafeAreaView>
   );
 }

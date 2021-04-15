@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   StyleSheet,
@@ -9,8 +10,8 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
-import data from './data';
 import {SharedElement} from 'react-navigation-shared-element';
+import data from './data';
 const {width, height} = Dimensions.get('window');
 const LOGO_WIDTH = 220;
 const LOGO_HEIGHT = 40;
@@ -21,7 +22,7 @@ const CIRCLE_SIZE = width * 0.6;
 const Circle = ({scrollX}) => {
   return (
     <View style={[StyleSheet.absoluteFillObject, styles.circleContainer]}>
-      {data.map(({color}, index) => {
+      {data.map((item, index) => {
         const inputRange = [
           (index - 0.55) * width,
           index * width,
@@ -34,17 +35,19 @@ const Circle = ({scrollX}) => {
         });
         const opacity = scrollX.interpolate({
           inputRange,
-          outputRange: [0, 0.2, 0],
+          outputRange: [0, 0.1, 0],
         });
         return (
-          <SharedElement id={`${data.key}.circle`} style={styles.circle}>
+          <SharedElement
+            key={index}
+            id={`item.${item.key}.circle`}
+            style={styles.circle}>
             <Animated.View
-              key={index}
               style={[
                 styles.circle,
                 {
                   top: 0,
-                  backgroundColor: color,
+                  backgroundColor: item.color,
                   opacity,
                   transform: [{scale}],
                 },
@@ -105,11 +108,12 @@ const Item = ({item, index, scrollX, navigation}) => {
 
   return (
     <TouchableOpacity
+      activeOpacity={0.6}
       style={styles.itemStyle}
       onPress={() => {
-        navigation.navigate('DetailHeadPhone', {item});
+        navigation.push('DetailHeadPhone', {item});
       }}>
-      <SharedElement id={`${item.key}.image`} style={styles.imageStyle}>
+      <SharedElement id={`item.${item.key}.image`} style={styles.imageStyle}>
         <Animated.Image
           source={imageUri}
           style={[
@@ -120,7 +124,6 @@ const Item = ({item, index, scrollX, navigation}) => {
           ]}
         />
       </SharedElement>
-
       <View style={styles.textContainer}>
         <Animated.Text
           style={[
@@ -164,7 +167,6 @@ const Pagination = ({scrollX}) => {
           styles.paginationIndicator,
           {
             position: 'absolute',
-            // backgroundColor: 'red',
             transform: [{translateX}],
           },
         ]}

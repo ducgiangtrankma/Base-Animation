@@ -109,7 +109,7 @@ const DetailHeadPhone = ({navigation, route}) => {
           animation={animation}
           delay={DURATION}
           style={{
-            flex: 0.35,
+            flex: 0.45,
             overflow: 'hidden',
           }}>
           <Animatable.View
@@ -119,7 +119,6 @@ const DetailHeadPhone = ({navigation, route}) => {
             style={{
               flex: 1,
               justifyContent: 'space-between',
-              backgroundColor: '#FFFFFF',
               marginRight: SPACING,
               overflow: 'hidden',
             }}>
@@ -158,7 +157,7 @@ const DetailHeadPhone = ({navigation, route}) => {
             </Animatable.View>
           </Animatable.View>
         </Animatable.View>
-        <View style={{flex: 0.65, overflow: 'hidden'}}>
+        <View style={{flex: 0.55}}>
           <Animatable.Image
             useNativeDriver
             animation={animation}
@@ -175,7 +174,7 @@ const styles = StyleSheet.create({
   heading: {
     color: '#333',
     textTransform: 'uppercase',
-    fontSize: 32,
+    fontSize: 36,
     height: 42,
     fontWeight: '800',
     letterSpacing: 2,
