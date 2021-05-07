@@ -24,7 +24,7 @@ export default function App(props) {
       <TouchableOpacity onPress={addCount}>
         <Text>Tang gia tri</Text>
       </TouchableOpacity>
-      {/* <FBSearch /> */}
+      <FBSearch />
       {/* <FBStories data={dataList} avatar={avatarUri} /> */}
       {/* <List /> */}
       {/* <MovieCarousel /> */}

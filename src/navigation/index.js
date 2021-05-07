@@ -7,6 +7,7 @@ import {
   AdvancedCarousel,
   TabAnimation,
   HeadPhone,
+  List,
 } from '../components';
 import Detail from '../components/RNStackFlatlistCarousel/Detail';
 import DetailHeadPhone from '../components/HeadPhone/Detail';
@@ -16,6 +17,7 @@ const Main = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode={false} mode="modal">
+        <Stack.Screen name="List" component={List} />
         <Stack.Screen name="HeadPhone" component={HeadPhone} />
         <Stack.Screen name="ScrollHeader" component={ScrollHeader} />
         <Stack.Screen name="AdvancedCarousel" component={AdvancedCarousel} />
